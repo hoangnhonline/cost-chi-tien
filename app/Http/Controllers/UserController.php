@@ -55,7 +55,7 @@ class UserController extends Controller
 
             if (Auth::attempt($dataArr)) {
              
-                return redirect()->route('account.index');             
+                return redirect()->route('cost.index');             
             }
 
         }else {
@@ -64,7 +64,7 @@ class UserController extends Controller
             return redirect()->route('login-form');
         }
 
-        return redirect()->route('working-cost.index');
+        return redirect()->route('cost.index');
     }
   
     public function logout()
