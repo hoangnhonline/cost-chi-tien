@@ -8,6 +8,8 @@ use Hash;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+use App\Models\Department;
+use App\Models\Area;
 use Helper, File, Session, Auth;
 
 class AccountController extends Controller
@@ -38,8 +40,9 @@ class AccountController extends Controller
     public function create()
     {         
         //$parentCate = Category::where('parent_id', 0)->where('type', 1)->orderBy('display_order')->get();
-
-        return view('account.create');
+        $departmentList = Department::all();
+        $areaList = Area::all();
+        return view('account.create', compact('departmentList', 'areaList'));
     }
     public function changePass(){
         return view('account.change-pass');   
@@ -76,7 +79,7 @@ class AccountController extends Controller
         $dataArr = $request->all();
          
         $this->validate($request,[
-            'full_name' => 'required',
+            'name' => 'required',
             'email' => 'required|unique:users,email',
         ],
         [
@@ -95,7 +98,7 @@ class AccountController extends Controller
 
         $rs = Account::create($dataArr);
         if ( $rs->id > 0 ){
-            Mail::send('account.mail', ['full_name' => $request->full_name, 'password' => $tmpPassword, 'email' => $request->email], function ($message) use ($request) {
+            Mail::send('account.mail', ['name' => $request->name, 'password' => $tmpPassword, 'email' => $request->email], function ($message) use ($request) {
                 $message->from( config('mail.username'), config('mail.name'));
 
                 $message->to( $request->email, $request->full_name )->subject('Mật khẩu đăng nhập hệ thống');
@@ -119,8 +122,9 @@ class AccountController extends Controller
     public function edit($id)
     {
         $detail = Account::find($id);
-        
-        return view('account.edit', compact( 'detail'));
+        $departmentList = Department::all();
+        $areaList = Area::all();
+        return view('account.edit', compact( 'detail', 'departmentList', 'areaList'));
     }
     public function update(Request $request)
     {

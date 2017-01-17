@@ -31,7 +31,9 @@ class Account extends Model  {
         'email', 
         'password', 
         'role', 
+        'type',
         'status', 
-        'last_login'
+        'last_login',
+        'remember_token'
     ];
 }
