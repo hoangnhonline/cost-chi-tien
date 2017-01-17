@@ -23,5 +23,15 @@ class Account extends Model  {
      *
      * @var array
      */
-    protected $fillable = ['full_name', 'email', 'password', 'status', 'changed_password', 'remember_token', 'role'];
+    protected $fillable = [
+        'name', 
+        'department_id', 
+        'area_id', 
+        'staff_code', 
+        'email', 
+        'password', 
+        'role', 
+        'status', 
+        'last_login'
+    ];
 }

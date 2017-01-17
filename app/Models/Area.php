@@ -3,14 +3,14 @@
 use Illuminate\Database\Eloquent\Model;
 
 
-class Customer extends Model  {
+class Area extends Model  {
 
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'customer';
+	protected $table = 'area';
 
 	 /**
      * Indicates if the model should be timestamped.
@@ -25,10 +25,6 @@ class Customer extends Model  {
      */
     protected $fillable = [
         'name', 
-        'area_id', 
-        'user_id', 
-        'address', 
-        'phone', 
-        'tax_code'
+        'description'        
     ];
 }

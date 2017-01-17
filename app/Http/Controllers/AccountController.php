@@ -17,6 +17,16 @@ class AccountController extends Controller
     *
     * @return Response
     */
+    public function ajaxList(Request $request)
+    {
+        $department_id = $request->department_id;
+        if($department_id == ''){
+            $items = Account::all();    
+        }else{
+            $items = Account::where('department_id', $department_id)->get();
+        }
+        return view('account.ajax-list', compact( 'items' ));
+    }
     public function index(Request $request)
     {          
         $items = Account::where('role', '<', 3)->where('status', '>', 0)->orderBy('id')->get();        

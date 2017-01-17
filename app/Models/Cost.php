@@ -3,14 +3,14 @@
 use Illuminate\Database\Eloquent\Model;
 
 
-class Customer extends Model  {
+class Cost extends Model  {
 
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'customer';
+	protected $table = 'cost';
 
 	 /**
      * Indicates if the model should be timestamped.
@@ -24,11 +24,13 @@ class Customer extends Model  {
      * @var array
      */
     protected $fillable = [
-        'name', 
-        'area_id', 
-        'user_id', 
-        'address', 
-        'phone', 
-        'tax_code'
+        'title', 
+        'detail', 
+        'staff_id', 
+        'department_id', 
+        'date_use', 
+        'total_cost',
+        'sct',
+        'type'
     ];
 }

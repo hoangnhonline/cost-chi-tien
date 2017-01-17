@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Pages;
+use App\Models\Cost;
 use Helper, File, Session, Auth;
 
 class PagesController extends Controller
@@ -22,7 +22,7 @@ class PagesController extends Controller
 
         $title = isset($request->title) && $request->title != '' ? $request->title : '';
         
-        $query = Pages::whereRaw('1');
+        $query = Cost::whereRaw('1');
 
         
         if( $title != ''){
@@ -88,7 +88,7 @@ class PagesController extends Controller
 
         $dataArr['updated_user'] = Auth::user()->id;
 
-        $rs = Pages::create($dataArr);
+        $rs = Cost::create($dataArr);
 
         $object_id = $rs->id;
 
@@ -117,7 +117,7 @@ class PagesController extends Controller
     public function edit($id)
     {        
 
-        $detail = Pages::find($id);
+        $detail = Cost::find($id);
 
         return view('pages.edit', compact('detail'));
     }
@@ -164,7 +164,7 @@ class PagesController extends Controller
 
         $dataArr['updated_user'] = Auth::user()->id;
 
-        $model = Pages::find($dataArr['id']);
+        $model = Cost::find($dataArr['id']);
 
         $model->update($dataArr);
        
@@ -182,7 +182,7 @@ class PagesController extends Controller
     public function destroy($id)
     {
         // delete
-        $model = Pages::find($id);
+        $model = Cost::find($id);
         $model->delete();
 
         // redirect

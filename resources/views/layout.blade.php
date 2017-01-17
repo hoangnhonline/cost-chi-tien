@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-  <title>iCho.vn | Dashboard</title>
+  <title>SAIGON PETRO | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="{{ URL::asset('http://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css') }}">
@@ -88,22 +88,16 @@
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="{{ URL::asset('backend/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ URL::asset('backend/dist/js/ajax-upload.js') }}"></script>
-<script src="{{ URL::asset('backend/dist/js/form.js') }}"></script>
 <script src="{{ URL::asset('backend/dist/js/sweetalert2.min.js') }}"></script>
 <script src="{{ URL::asset('backend/dist/js/select2.min.js') }}"></script>
-<script src="{{ URL::asset('backend/dist/js/es6-promise.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-
-<!-- Slimscroll -->
-<script src="{{ URL::asset('backend/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ URL::asset('backend/dist/js/app.min.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ URL::asset('backend/dist/js/pages/dashboard.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ URL::asset('backend/dist/js/demo.js') }}"></script>
-<script src="{{ URL::asset('backend/dist/js/lazy.js') }}"></script>
+
+<script src="{{ URL::asset('backend/dist/js/jquery.number.min.js') }}"></script>
 <script src="{{ URL::asset('backend/dist/js/ckeditor/ckeditor.js') }}"></script>
 
 <script type="text/javascript" type="text/javascript">
@@ -124,8 +118,8 @@ $(document).on('click', '#btnSaveNoti', function(){
     });
   }
 });
-$(document).ready(function(){
-  $('img.lazy').lazyload();
+$(document).ready(function(){  
+  $('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' });
   $.ajaxSetup({
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

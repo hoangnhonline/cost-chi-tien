@@ -26,13 +26,6 @@ $(function () {
     forcePlaceholderSize: true,
     zIndex: 999999
   });
-
-
-  //SLIMSCROLL FOR CHAT WIDGET
-  $('#chat-box').slimScroll({
-    height: '250px'
-  });
-
   /* Morris.js Charts */
 
 
