@@ -46,7 +46,7 @@ $area_id = old('area_id', 0);
                  
                  <!-- text input -->
                 <div class="form-group">                  
-                  <input type="text" placeholder="Họ tên" class="form-control"  name="full_name" id="full_name" value="{{ old('full_name') }}">
+                  <input type="text" placeholder="Họ tên" class="form-control"  name="name" id="name" value="{{ old('name') }}">
                 </div>
                  <div class="form-group">                  
                   <input type="text" placeholder="Email" class="form-control" name="email" id="email" value="{{ old('email') }}">
