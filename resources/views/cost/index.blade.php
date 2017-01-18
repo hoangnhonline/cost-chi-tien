@@ -20,10 +20,13 @@
       @if(Session::has('message'))
       <p class="alert alert-info" >{{ Session::get('message') }}</p>
       @endif
+      @if(Auth::user()->role == 3)
       <a href="{{ route('cost.create') }}" class="btn btn-info" style="margin-bottom:5px">Thêm mới</a>
+      @endif
       <div class="panel panel-default">        
         <div class="panel-body">
           <form class="form-inline" role="form" method="GET" action="{{ route('cost.index') }}">                        
+            @if(Auth::user()->role == 3)
             <div class="form-group">              
               <select name="type" class="form-control select2" id="type">
                 <option value="">-- Phân loại --</option>
@@ -47,6 +50,7 @@
                 @endforeach                    
               </select>
             </div>
+            @endif
             <div class="form-group">              
               <input type="text" class="form-control" name="sct" placeholder="Số chứng từ" value="{{ $search['sct'] }}" style="width:120px">
             </div>
@@ -72,9 +76,11 @@
           <table class="table table-bordered" id="table-list-data">
             <tr>
               <th style="width: 1%">#</th>                            
+              @if(Auth::user()->role == 3)
               <th>Phân loại</th>
               <th>Phòng ban</th>
               <th>Nhân viên</th>
+              @endif
               <th>Ngày</th>              
               <th>Số chứng từ</th>
               <th>Nội dung</th>
@@ -89,10 +95,12 @@
               @foreach( $items as $item )
                 <?php $i ++; ?>
               <tr id="row-{{ $item->id }}">
-                <td><span class="order">{{ $i }}</span></td>      
+                <td><span class="order">{{ $i }}</span></td>
+                @if(Auth::user()->role == 3) 
                 <td>{{ $item->type == 1 ? "Văn phòng" : "Nhà máy" }}</td>
                 <td>{{ $item->department_name }}</td>
                 <td>{{ $item->full_name }}</td>
+                @endif
                 <td>{{ date('d-m-Y', strtotime($item->date_use)) }}</td>                
                 <td>{{ $item->sct }}</td>
                 <td>{{ $item->title }}</td>

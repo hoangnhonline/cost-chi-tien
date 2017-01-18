@@ -21,6 +21,14 @@
           <span>Chi phí</span>         
         </a>       
       </li>
+      @if(Auth::user()->role == 3)
+      <li {{ in_array(\Request::route()->getName(), ['account.edit', 'account.index', 'account.create']) ? "class=active" : "" }}>
+        <a href="{{ route('account.index') }}">
+          <i class="fa fa-reorder"></i> 
+          <span>Tài khoản</span>         
+        </a>       
+      </li>
+      @endif
       <!--<li {{ in_array(\Request::route()->getName(), ['cost.edit', 'cost.index', 'cost.create']) ? "class=active" : "" }}>
         <a href="{{ route('cost.index') }}">
           <i class="fa fa-reorder"></i> 

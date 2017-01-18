@@ -23,15 +23,22 @@ class CostController extends Controller
         
         $departmentList = Department::all();
         $staffList = Account::where('type', 1)->get();
-
         $search['sct'] = $sct = isset($request->sct) && $request->sct != '' ? $request->sct : '';
         $search['fd'] = $fd = isset($request->fd) && $request->fd != '' ? $request->fd : '';
-        $search['td'] = $td = isset($request->td) && $request->td != '' ? $request->td : '';        
-        $search['department_id'] = $department_id = isset($request->department_id) && $request->department_id != '' ? $request->department_id : '';
-        $search['type'] = $type = isset($request->type) && $request->type != '' ? $request->type : '';
-        $search['staff_id'] = $staff_id = isset($request->staff_id) && $request->staff_id != '' ? $request->staff_id : '';
+        $search['td'] = $td = isset($request->td) && $request->td != '' ? $request->td : '';
+        
+        if(Auth::user()->role == 3){
+            $search['staff_id'] = $staff_id = isset($request->staff_id) && $request->staff_id != '' ? $request->staff_id : '';
+            $search['department_id'] = $department_id = isset($request->department_id) && $request->department_id != '' ? $request->department_id : '';
+            $search['type'] = $type = isset($request->type) && $request->type != '' ? $request->type : '';
+        }else{
+            $search['staff_id'] = $staff_id = Auth::user()->id;
+            $search['department_id'] = $department_id = '';
+            $search['type'] = $type = '';
+        }
 
         $query = Cost::whereRaw('1');
+
         if($department_id > 0){
             $query->where('cost.department_id', $department_id );
         }
@@ -67,7 +74,10 @@ class CostController extends Controller
     * @return Response
     */
     public function create(Request $request)
-    {          
+    {    
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $departmentList = Department::all();
         $staffList = Account::where('type', 1)->get();
         return view('cost.create', compact('departmentList', 'staffList'));
@@ -81,6 +91,9 @@ class CostController extends Controller
     */
     public function store(Request $request)
     {
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $dataArr = $request->all();
         
         $this->validate($request,[
@@ -130,7 +143,9 @@ class CostController extends Controller
     */
     public function edit($id)
     {        
-
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $detail = Cost::find($id);
         $departmentList = Department::all();
         $staffList = Account::where('type', 1)->get();
@@ -146,6 +161,9 @@ class CostController extends Controller
     */
     public function update(Request $request)
     {
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $dataArr = $request->all();
         
         $this->validate($request,[
@@ -187,6 +205,9 @@ class CostController extends Controller
     */
     public function destroy($id)
     {
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         // delete
         $model = Cost::find($id);
         $model->delete();
