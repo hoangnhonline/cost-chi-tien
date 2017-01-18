@@ -59,7 +59,7 @@
         </form>
     </div>
 </div>
-@include('customer.customer-notification-modal')
+
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">

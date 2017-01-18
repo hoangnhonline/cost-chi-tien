@@ -1,4 +1,4 @@
-@extends('layout.backend')
+@extends('layout')
 @section('content')
 <div class="content-wrapper">
 <!-- Content Header (Page header) -->
@@ -8,7 +8,7 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="{{ route( 'customer.index') }}">Khách hàng</a></li>
+    <li><a href="{{ route( 'customer.index' ) }}">Khách hàng</a></li>
     <li class="active">Danh sách</li>
   </ol>
 </section>
@@ -19,72 +19,62 @@
     <div class="col-md-12">
       @if(Session::has('message'))
       <p class="alert alert-info" >{{ Session::get('message') }}</p>
-      @endif     
+      @endif
+      <a href="{{ route('customer.create') }}" class="btn btn-info" style="margin-bottom:5px">Thêm mới</a>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Bộ lọc</h3>
-        </div>
-        <div class="panel-body">
-          <form class="form-inline" role="form" method="GET" action="{{ route('customer.index') }}" id="frmContact">  <div class="form-group">
-              <label for="name">Họ tên :</label>
-              <input type="text" class="form-control" name="full_name" value="{{ $full_name }}">
-            </div>                                                 
-            <div class="form-group">
-              <label for="name">Email :</label>
-              <input type="text" class="form-control" name="email" value="{{ $email }}">
-            </div>
-            <div class="form-group">
-              <label for="name">&nbsp;&nbsp;Điện thoại :</label>
-              <input type="text" class="form-control" name="phone" value="{{ $phone }}">
-            </div>
-            <button type="submit" class="btn btn-default">Lọc</button>
-          </form>         
-        </div>
+        </div>        
       </div>
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Danh sách ( <span class="value">{{ $items->total() }} khách hàng )</span></h3>
+          <h3 class="box-title">Danh sách</h3>
         </div>
         
         <!-- /.box-header -->
-        <div class="box-body">        
-          <a href="{{ route('customer.export') }}" class="btn btn-info btn-sm" style="margin-bottom:5px;float:left" target="_blank">Export</a>
-          <div style="text-align:center">
-            {{ $items->appends( ['status' => $status, 'email' => $email, 'phone' => $phone, 'full_name' => $full_name] )->links() }}
-          </div>  
+        <div class="box-body">
           <table class="table table-bordered" id="table-list-data">
             <tr>
-              <th style="width: 1%">#</th>                            
-              <th>Thông tin liên hệ</th>              
-              <th width="10%">Thời gian tạo</th>
-              <th width="1%;white-space:nowrap">Thao tác</th>
+              <th style="width: 1%">#</th>              
+              <th>Tên CTY</th>
+              <th>Người đại diện</th>
+              <th>Mã số thuế</th>
+              <th>Điện thoại</th>
+              <th>Email</th>              
+              <th>Trạng thái</th>
+              <th width="1%" style="white-space:nowrap">Thao tác</th>
             </tr>
             <tbody>
             @if( $items->count() > 0 )
               <?php $i = 0; ?>
               @foreach( $items as $item )
                 <?php $i ++; ?>
-              <tr id="row-{{ $item->id }}">
-                <td><span class="order">{{ $i }}</span></td>                       
-                <td>                  
-                  @if($item->full_name != '')
-                  {{ $item->full_name }}</br>
-                  @endif
-                  @if($item->email != '')
-                  <a href="{{ route( 'customer.edit', [ 'id' => $item->id ]) }}">{{ $item->email }}</a> -
-                  @endif
-                  @if($item->phone != '')
-                  {{ $item->phone }}</br>
-                  @endif
-                </td>              
-                <td>{{ date('d-m-Y H:i', strtotime($item->created_at)) }}</td>
-                <td style="white-space:nowrap">                                  
+                <tr id="row-{{ $item->id }}">
+                  <td><span class="order">{{ $i }}</span></td>
+                 <td>{{ $item->company_name }}</td>
+                  <td>                  
+                    <a href="{{ route( 'customer.edit', [ 'id' => $item->id ]) }}">{{ $item->name }}</a>                                
+                  </td>
+                  <td>{{ $item->tax_no }}</td>
+                  <td>{{ $item->phone }}</td>
+                  <td>{{ $item->email }}</td>
                   
-                  <a onclick="return callDelete('{{ $item->email }}','{{ route( 'customer.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger">Xóa</a>
-                  
-                </td>
-              </tr> 
+                  <td>{{ $item->status == 1 ? "Mở"  : "Khóa" }}</td>
+                  <td style="white-space:nowrap">  
+                    <a href="{{ route( 'customer.update-status', ['status' => $item->status == 1 ? 2 : 1 , 'id' => $item->id ])}}" class="btn btn-sm {{ $item->status == 1 ? "btn-warning" : "btn-info" }}" 
+                    @if( $item->status == 2)
+                    onclick="return confirm('Bạn chắc chắn muốn MỞ khóa tài khoản này? '); "
+                    @else
+                    onclick="return confirm('Bạn chắc chắn muốn KHÓA tài khoản này? '); "
+                    @endif
+                    >{{ $item->status == 1 ? "Khóa TK" : "Mở khóa TK" }}</a>                
+                    <a href="{{ route( 'customer.edit', [ 'id' => $item->id ]) }}" class="btn-sm btn btn-primary">Chỉnh sửa</a>                 
+                    
+                    <a onclick="return callDelete('{{ $item->name }}','{{ route( 'customer.destroy', [ 'id' => $item->id ]) }}');" class="btn-sm btn btn-danger">Xóa</a>
+                    
+                  </td>
+                </tr> 
               @endforeach
             @else
             <tr>
@@ -94,9 +84,6 @@
 
           </tbody>
           </table>
-          <div style="text-align:center">
-            {{ $items->appends( ['status' => $status, 'email' => $email, 'phone' => $phone, 'full_name' => $full_name] )->links() }}
-          </div>  
         </div>        
       </div>
       <!-- /.box -->     
@@ -124,9 +111,44 @@ function callDelete(name, url){
   return flag;
 }
 $(document).ready(function(){
-  $('#type').change(function(){
-    $('#frmContact').submit();
-  });
+  $('#table-list-data tbody').sortable({
+        placeholder: 'placeholder',
+        handle: ".move",
+        start: function (event, ui) {
+                ui.item.toggleClass("highlight");
+        },
+        stop: function (event, ui) {
+                ui.item.toggleClass("highlight");
+        },          
+        axis: "y",
+        update: function() {
+            var rows = $('#table-list-data tbody tr');
+            var strOrder = '';
+            var strTemp = '';
+            for (var i=0; i<rows.length; i++) {
+                strTemp = rows[i].id;
+                strOrder += strTemp.replace('row-','') + ";";
+            }     
+            updateOrder("loai_sp", strOrder);
+        }
+    });
 });
+function updateOrder(table, strOrder){
+  $.ajax({
+      url: $('#route_update_order').val(),
+      type: "POST",
+      async: false,
+      data: {          
+          str_order : strOrder,
+          table : table
+      },
+      success: function(data){
+          var countRow = $('#table-list-data tbody tr span.order').length;
+          for(var i = 0 ; i < countRow ; i ++ ){
+              $('span.order').eq(i).html(i+1);
+          }                        
+      }
+  });
+}
 </script>
 @stop
