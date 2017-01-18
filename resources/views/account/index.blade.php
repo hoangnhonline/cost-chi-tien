@@ -52,10 +52,10 @@
                   <td><span class="order">{{ $i }}</span></td>
                  
                   <td>                  
-                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}">{{ $item->full_name }}</a>                                
+                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}">{{ $item->name }}</a>                                
                   </td>
                   <td>{{ $item->email }}</td>
-                  <td>{{ $item->role == 1 ? "Editor"  : "Admin" }}</td>
+                  <td>{{ $item->role == 1 ? "Nhân viên"  : "Giám đốc KV" }}</td>
                   <td>{{ $item->status == 1 ? "Mở"  : "Khóa" }}</td>
                   <td style="white-space:nowrap">  
                     <a href="{{ route( 'account.update-status', ['status' => $item->status == 1 ? 2 : 1 , 'id' => $item->id ])}}" class="btn btn-sm {{ $item->status == 1 ? "btn-warning" : "btn-info" }}" 

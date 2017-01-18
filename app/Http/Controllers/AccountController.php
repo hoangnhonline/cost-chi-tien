@@ -31,6 +31,9 @@ class AccountController extends Controller
     }
     public function index(Request $request)
     {          
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $items = Account::where('role', '<', 3)->where('status', '>', 0)->orderBy('id')->get();        
         
         //$parentCate = Category::where('parent_id', 0)->where('type', 1)->orderBy('display_order')->get();
@@ -38,7 +41,10 @@ class AccountController extends Controller
         return view('account.index', compact('items'));
     }
     public function create()
-    {         
+    {        
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        } 
         //$parentCate = Category::where('parent_id', 0)->where('type', 1)->orderBy('display_order')->get();
         $departmentList = Department::all();
         $areaList = Area::all();
@@ -75,7 +81,9 @@ class AccountController extends Controller
     }
     public function store(Request $request)
     {
-       
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $dataArr = $request->all();
          
         $this->validate($request,[
@@ -111,6 +119,9 @@ class AccountController extends Controller
     }
     public function destroy($id)
     {
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         // delete
         $model = Account::find($id);
         $model->delete();
@@ -121,6 +132,9 @@ class AccountController extends Controller
     }
     public function edit($id)
     {
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $detail = Account::find($id);
         $departmentList = Department::all();
         $areaList = Area::all();
@@ -128,18 +142,19 @@ class AccountController extends Controller
     }
     public function update(Request $request)
     {
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $dataArr = $request->all();
         
         $this->validate($request,[
-            'full_name' => 'required'            
+            'name' => 'required'            
         ],
         [
             'name.required' => 'Bạn chưa nhập họ tên'           
         ]);      
 
-        $model = Account::find($dataArr['id']);
-
-        $dataArr['updated_user'] = Auth::user()->id;
+        $model = Account::find($dataArr['id']);        
 
         $model->update($dataArr);
 
@@ -149,7 +164,9 @@ class AccountController extends Controller
     }
     public function updateStatus(Request $request)
     {       
-
+        if(Auth::user()->role != 3){
+            return redirect()->route('cost.index');
+        }
         $model = Account::find( $request->id );
 
         

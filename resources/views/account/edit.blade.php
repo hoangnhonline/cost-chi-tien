@@ -12,7 +12,11 @@
       <li class="active">Chỉnh sửa</li>
     </ol>
   </section>
-
+<?php 
+$type = old('type', $detail->type);
+$department_id = old('department_id', $detail->department_id);
+$area_id = old('area_id', $detail->area_id);
+?>
   <!-- Main content -->
   <section class="content">
     <a class="btn btn-default btn-sm" href="{{ route('account.index') }}" style="margin-bottom:5px">Quay lại</a>
@@ -41,24 +45,48 @@
               @endif
                  
                  <!-- text input -->
-                <div class="form-group">
-                  <label>Họ tên <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" name="full_name" id="full_name" value="{{ $detail->full_name }}">
+                <div class="form-group">                  
+                  <input type="text" placeholder="Họ tên" class="form-control" name="name" id="name" value="{{ $detail->name }}">
                 </div>
-                 <div class="form-group">
-                  <label>Email <span class="red-star">*</span></label>
-                  <input type="text" class="form-control" readonly="true" name="email" id="email" value="{{ $detail->email }}">
-                </div>                            
-                <div class="form-group">
-                  <label>Role</label>
-                  <select class="form-control" name="role" id="role">                             
-                    <option value="1" {{ $detail->role == 1 ? "selected" : "" }}>Editor</option>                  
-                    <option value="2" {{ $detail->role == 2 ? "selected" : "" }}>Admin</option>                    
+                 <div class="form-group">                  
+                  <input type="text" placeholder="Email" class="form-control" readonly="true" name="email" id="email" value="{{ $detail->email }}">
+                </div>
+                <div class="form-group">                  
+                  <input type="text" placeholder="Mã nhân viên" class="form-control" name="staff_code" id="staff_code" value="{{ old('staff_code', $detail->staff_code) }}">
+                </div>  
+                <div class="form-group" >                  
+                  <select name="type" class="form-control select2" id="type">
+                    <option value="">-- Phân loại --</option>                    
+                    <option value="1" {{ $type == 1 ? "selected" : "" }}>Văn phòng</option>
+                    <option value="2" {{ $type == 2 ? "selected" : "" }}>Nhà máy</option>
                   </select>
-                </div>                            
-                <div class="form-group">
-                  <label>Trạng thái</label>
+                </div>
+                <div class="form-group" >                  
+                  <select name="department_id" class="form-control select2" id="department_id">
+                    <option value="">-- Phòng ban --</option>    
+                    @foreach($departmentList as $depart)                
+                    <option value="{{ $depart->id }}" {{ $department_id == $depart->id ? "selected" : "" }}>{{ $depart->name }}</option>
+                    @endforeach                    
+                  </select>
+                </div>              
+                <div class="form-group">                  
+                  <select class="form-control" name="role" id="role"> 
+                    <option value="">-- Chức vụ --</option>                            
+                    <option value="1" {{ old('role', $detail->role) == 1 ? "selected" : "" }}>Nhân viên</option>                  
+                    <option value="2" {{ old('role', $detail->role) == 2 ? "selected" : "" }}>Giám đốc KV</option>
+                  </select>
+                </div>  
+                <div class="form-group">                  
+                  <select class="form-control" name="area_id" id="area_id"> 
+                    <option value="">-- Khu vực --</option>
+                    @foreach($areaList as $area)                
+                    <option value="{{ $area->id }}" {{ $area_id == $area->id ? "selected" : "" }}>{{ $area->name }}</option>
+                    @endforeach 
+                  </select>
+                </div>                        
+                <div class="form-group">                  
                   <select class="form-control" name="status" id="status">                                      
+                    <option value="">-- Trạng thái --</option>
                     <option value="1" {{ $detail->status == 1 ? "selected" : "" }}>Mở</option>                  
                     <option value="2" {{ $detail->status == 2 ? "selected" : "" }}>Khóa</option>                    
                   </select>

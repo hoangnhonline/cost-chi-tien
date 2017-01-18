@@ -50,6 +50,9 @@ $area_id = old('area_id', 0);
                 </div>
                  <div class="form-group">                  
                   <input type="text" placeholder="Email" class="form-control" name="email" id="email" value="{{ old('email') }}">
+                </div> 
+                 <div class="form-group">                  
+                  <input type="text" placeholder="Mã nhân viên" class="form-control" name="staff_code" id="staff_code" value="{{ old('staff_code') }}">
                 </div>  
                 <div class="form-group" >                  
                   <select name="type" class="form-control select2" id="type">
@@ -74,7 +77,7 @@ $area_id = old('area_id', 0);
                   </select>
                 </div>  
                 <div class="form-group">                  
-                  <select class="form-control" name="role" id="role"> 
+                  <select class="form-control" name="area_id" id="area_id"> 
                     <option value="">-- Khu vực --</option>                            
                     @foreach($areaList as $area)                
                     <option value="{{ $area->id }}" {{ $area_id == $area->id ? "selected" : "" }}>{{ $area->name }}</option>
