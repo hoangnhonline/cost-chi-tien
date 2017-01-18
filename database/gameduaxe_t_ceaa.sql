@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jan 16, 2017 at 04:57 PM
--- Server version: 5.6.30-1+deb.sury.org~wily+2
--- PHP Version: 5.6.11-1ubuntu3.4
+-- Host: 127.0.0.1
+-- Generation Time: Jan 18, 2017 at 11:51 PM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `manage`
+-- Database: `gameduaxe_t_ceaa`
 --
 
 -- --------------------------------------------------------
@@ -33,6 +33,17 @@ CREATE TABLE `area` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `area`
+--
+
+INSERT INTO `area` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Miền Đông\n', '', '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(2, 'Miền Tây\r\n', '', '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(3, 'Miền Trung', '', '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(4, 'Hồ Chí Minh', '', '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(5, 'Duyên Hải Nam Trung Bộ và Tây Nguyên', '', '2017-01-17 00:00:00', '2017-01-17 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -70,6 +81,13 @@ CREATE TABLE `bill` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `bill`
+--
+
+INSERT INTO `bill` (`id`, `customer_id`, `bill_no`, `date_export`, `product_cost`, `tax`, `total_cost`, `pay`, `owed`, `created_at`, `updated_at`) VALUES
+(1, 4, '0987654322', '2017-01-19', 120000, 12000, 132000, 0, 132000, '2017-01-19 05:43:20', '2017-01-19 05:43:20');
+
 -- --------------------------------------------------------
 
 --
@@ -96,12 +114,14 @@ CREATE TABLE `bill_detail` (
 
 CREATE TABLE `cost` (
   `id` int(11) NOT NULL,
+  `title` varchar(500) NOT NULL,
   `detail` text NOT NULL,
   `staff_id` int(11) NOT NULL,
+  `department_id` int(11) NOT NULL,
   `date_use` date NOT NULL,
   `total_cost` int(11) NOT NULL,
   `sct` varchar(100) NOT NULL,
-  `type` tinyint(4) NOT NULL COMMENT '1 : cong tac phi 2 : tiep khach 3 : nha may 4 : van phong',
+  `type` tinyint(4) NOT NULL COMMENT '1 nha may 2 van phong',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -116,12 +136,40 @@ CREATE TABLE `customer` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `area_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `address` varchar(255) NOT NULL,
   `phone` varchar(50) NOT NULL,
   `tax_code` varchar(100) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `department`
+--
+
+CREATE TABLE `department` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  `display_order` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `department`
+--
+
+INSERT INTO `department` (`id`, `name`, `type`, `display_order`, `created_at`, `updated_at`) VALUES
+(1, 'Phòng kế toán', 1, 1, '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(2, 'Phòng kinh doanh', 1, 2, '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(3, 'Phòng kế hoạch và điều vận\r\n', 2, 1, '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(4, 'Phòng Lab\r\n', 2, 1, '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(5, 'Phòng bảo trì - công nghệ sản xuất', 2, 3, '2017-01-17 00:00:00', '2017-01-17 00:00:00'),
+(6, 'Phòng HSE', 2, 4, '2017-01-17 00:00:00', '2017-01-17 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -149,14 +197,19 @@ CREATE TABLE `pay` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `position` varchar(255) NOT NULL,
+  `company_name` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` varchar(100) DEFAULT NULL,
+  `tax_no` varchar(100) DEFAULT NULL,
+  `department_id` int(11) NOT NULL,
   `area_id` int(11) NOT NULL,
   `staff_code` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` tinyint(1) NOT NULL,
+  `role` tinyint(1) NOT NULL COMMENT '3 super 2 giam doc 1 staff 0 customer',
   `type` tinyint(1) NOT NULL COMMENT '1 : staff 2 : customer',
   `status` tinyint(1) NOT NULL DEFAULT '1',
+  `remember_token` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `last_login` datetime NOT NULL
@@ -166,8 +219,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `position`, `area_id`, `staff_code`, `email`, `password`, `role`, `type`, `status`, `created_at`, `updated_at`, `last_login`) VALUES
-(1, 'Tiên Hồ', 'Kế toán', 0, 9999, 'tien.ho@apsaigonpetro.com.vn', '$2y$10$/vF4N2AKvZub7jnhWpTaWeBoejGkbad5DOx9IRfBTvKqWkzgPuTX6', 3, 0, 1, '2017-01-14 00:00:00', '2017-01-14 00:00:00', '2017-01-14 00:00:00');
+INSERT INTO `users` (`id`, `name`, `company_name`, `address`, `phone`, `tax_no`, `department_id`, `area_id`, `staff_code`, `email`, `password`, `role`, `type`, `status`, `remember_token`, `created_at`, `updated_at`, `last_login`) VALUES
+(1, 'Tiên Hồ', NULL, NULL, NULL, NULL, 1, 0, 9999, 'tien.ho@apsaigonpetro.com.vn', '$2y$10$/vF4N2AKvZub7jnhWpTaWeBoejGkbad5DOx9IRfBTvKqWkzgPuTX6', 3, 1, 1, 'mqC01P4OKEJkSDd7DYF1EaYzlfgR527D0tyM3A5Giups6KueCRjNFVQV44Ij', '2017-01-14 00:00:00', '2017-01-17 17:26:51', '2017-01-14 00:00:00'),
+(4, 'A Hoang', 'Cty ABC', NULL, '0917492306', '09876543', 0, 1, 0, 'hoangnhonline@gmail.com', '$2y$10$Ce8M2c3XTSMCvI9JPo6.3ONWzUH0WNcgUYds3rP5/kam.aZe1RG5.', 0, 2, 1, '', '2017-01-19 05:35:26', '2017-01-19 05:35:26', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -214,7 +268,8 @@ ALTER TABLE `cost`
   ADD KEY `date_use` (`date_use`),
   ADD KEY `sct` (`sct`),
   ADD KEY `staff_id` (`staff_id`),
-  ADD KEY `type` (`type`);
+  ADD KEY `type` (`type`),
+  ADD KEY `department_id` (`department_id`);
 
 --
 -- Indexes for table `customer`
@@ -223,7 +278,14 @@ ALTER TABLE `customer`
   ADD PRIMARY KEY (`id`),
   ADD KEY `name` (`name`),
   ADD KEY `area_id` (`area_id`),
-  ADD KEY `phone` (`phone`);
+  ADD KEY `phone` (`phone`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `department`
+--
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pay`
@@ -241,7 +303,9 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD KEY `name` (`name`),
   ADD KEY `area_id` (`area_id`),
-  ADD KEY `staff_code` (`staff_code`);
+  ADD KEY `staff_code` (`staff_code`),
+  ADD KEY `department_id` (`department_id`),
+  ADD KEY `role` (`role`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -251,7 +315,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `area`
 --
 ALTER TABLE `area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `bank`
 --
@@ -261,7 +325,7 @@ ALTER TABLE `bank`
 -- AUTO_INCREMENT for table `bill`
 --
 ALTER TABLE `bill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `bill_detail`
 --
@@ -278,6 +342,11 @@ ALTER TABLE `cost`
 ALTER TABLE `customer`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `department`
+--
+ALTER TABLE `department`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
 -- AUTO_INCREMENT for table `pay`
 --
 ALTER TABLE `pay`
@@ -286,7 +355,7 @@ ALTER TABLE `pay`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
