@@ -1,9 +1,9 @@
-<p>Hi {{ $full_name }}!</p>
+<p>Hi {{ $name }}!</p>
 
-<p>Chào mừng bạn đến với hệ thống quản trị phim1p.com.</p>
+<p>Chào mừng bạn đến với hệ thống quản trị SAIGON PETRO.</p>
 
 <p>Sau đây là thông tin đăng nhập của bạn:</p>
-URL : <a href="http://phim1p.com/backend/login">http://phim1p.com/backend/login</a> <br>
+URL : <a href="http://gameduaxe.top/login">http://phim1p.com/login</a> <br>
 Email : <strong>{{ $email }}</strong><br>
 Password : <strong>{{ $password }}</strong>
 
