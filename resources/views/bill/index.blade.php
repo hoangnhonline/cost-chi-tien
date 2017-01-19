@@ -68,10 +68,9 @@
               <th>Số hóa đơn</th>
               <th style="text-align:right">Tổng tiền</th>
               <th style="text-align:right">Đã trả</th>
-              <th style="text-align:right">Còn nợ</th>            
-              @if(Auth::user()->role == 3)
+              <th style="text-align:right">Còn nợ</th>                          
               <th width="1%;white-space:nowrap">Thao tác</th>
-              @endif
+              
             </tr>
             <tbody>
             @if( $items->count() > 0 )
@@ -88,13 +87,16 @@
                 <td style="text-align:right">{{ number_format($item->total_cost) }}</td>
                 <td style="text-align:right">{{ number_format($item->pay) }}</td>
                 <td style="text-align:right">{{ number_format($item->owed) }}</td>
-                @if(Auth::user()->role == 3)
-                <td style="white-space:nowrap">                                
+                
+                <td style="white-space:nowrap">  
+
                 <a href="{{ route( 'bill-detail.index', [ 'id' => $item->id ]) }}" class="btn btn-info btn-sm">Chi tiết</a>
-                  <a href="{{ route( 'bill.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm">Chỉnh sửa</a>                                   
+                  @if(Auth::user()->role == 3)
+                  <a href="{{ route( 'bill.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
                   <a onclick="return callDelete('{{ $item->title }}','{{ route( 'bill.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger  btn-sm">Xóa</a>
+                  @endif
                 </td>
-                @endif
+                
               </tr> 
               @endforeach
             @else

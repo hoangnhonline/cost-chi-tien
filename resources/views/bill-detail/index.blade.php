@@ -65,6 +65,7 @@
         </div>        
       </div>
       <!-- /.box --> 
+      @if(Auth::user()->role == 3)
       <form role="form" method="POST" action="{{ route('bill-detail.store') }}" id="formData">
         <div class="box box-primary" id="formAdd">           
             <div class="box-header with-border">
@@ -115,8 +116,9 @@
                   </div>
               </div>           
               
-          </div> 
-        </form>   
+        </div> 
+      </form>   
+      @endif
     </div>
     <!-- /.col -->  
   </div> 
