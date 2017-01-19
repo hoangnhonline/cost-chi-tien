@@ -26,8 +26,7 @@ class BillController extends Controller
         $search['td'] = $td = isset($request->td) && $request->td != '' ? $request->td : '';
         
         if(Auth::user()->role == 3){
-            $search['customer_id'] = $customer_id = isset($request->customer_id) && $request->customer_id != '' ? $request->customer_id : '';           
-           
+            $search['customer_id'] = $customer_id = isset($request->customer_id) && $request->customer_id != '' ? $request->customer_id : '';
         }else{
             $search['customer_id'] = $customer_id = Auth::user()->id;                       
         }

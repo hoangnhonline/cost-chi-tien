@@ -54,8 +54,12 @@ class UserController extends Controller
         if (Auth::validate($dataArr)) {
 
             if (Auth::attempt($dataArr)) {
-             
-                return redirect()->route('cost.index');             
+                if(Auth::user()->type == 1){
+                    return redirect()->route('cost.index');             
+                }else{
+                    return redirect()->route('bill.index');                 
+                }
+                
             }
 
         }else {
