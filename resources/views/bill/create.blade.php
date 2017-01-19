@@ -65,10 +65,10 @@ $customer_id = old('customer_id', 0);
                   <input type="text" placeholder="Tổng tiền" class="form-control number" name="total_cost" id="total_cost" value="{{ old('total_cost') }}">
                 </div>
                 <div class="form-group">                  
-                  <input type="text" placeholder="Đã trả" class="form-control number" name="pay" id="pay" value="{{ old('pay') }}">
+                  <input type="text" placeholder="Đã trả" class="form-control number" name="pay" id="pay" value="{{ old('pay', 0) }}">
                 </div>
                 <div class="form-group">                  
-                  <input type="text" placeholder="Còn nợ lại" class="form-control" name="owed" id="owed" value="{{ old('owed') }}">
+                  <input type="text" placeholder="Còn nợ lại" class="form-control number" name="owed" id="owed" value="{{ old('owed') }}">
                 </div>
              
             </div>
@@ -94,10 +94,38 @@ $customer_id = old('customer_id', 0);
 @section('javascript_page')
 <script type="text/javascript">
     $(document).ready(function(){
+      $('.select2').select2();
       $('#formData').submit(function(){
         $('#btnSave').hide();
         $('#btnLoading').show();
       });
+      $('#product_cost, #tax').blur(function(){
+        calTotal();
+      });
+      $('#pay').blur(function(){
+        if($('#pay').val() != ''){
+          var pay = parseInt($('#pay').val());
+          var total_cost = parseInt($('#total_cost').val());
+          if(pay <= total_cost){
+            $('#owed').val(total_cost-pay);
+          }else{
+            alert('Số tiền đã trả lớn hơn tổng số tiền.');
+            $('#pay').val(0);
+            $('#owed').val(total_cost);
+          }
+        }
+      });
     });    
+function calTotal(){
+  var tax = 0;
+  var product_cost = 0;
+  if($('#product_cost').val() != ''){
+    product_cost = parseInt($('#product_cost').val());
+  }
+  if($('#tax').val()){
+    tax = parseInt($('#tax').val());
+  }
+  $('#total_cost, #owed').val(product_cost+tax);
+}
 </script>
 @stop

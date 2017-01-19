@@ -62,14 +62,13 @@
             <tr>
               <th style="width: 1%">#</th>                            
               @if(Auth::user()->role == 3)
-              <th>Phân loại</th>
-              <th>Phòng ban</th>
-              <th>Nhân viên</th>
+              <th>Khách hàng</th>         
               @endif
               <th>Ngày</th>              
-              <th>Số chứng từ</th>
-              <th>Nội dung</th>
-              <th style="text-align:right">Số tiền</th>
+              <th>Số hóa đơn</th>
+              <th style="text-align:right">Tổng tiền</th>
+              <th style="text-align:right">Đã trả</th>
+              <th style="text-align:right">Còn nợ</th>            
               @if(Auth::user()->role == 3)
               <th width="1%;white-space:nowrap">Thao tác</th>
               @endif
@@ -82,7 +81,7 @@
               <tr id="row-{{ $item->id }}">
                 <td><span class="order">{{ $i }}</span></td>
                 @if(Auth::user()->role == 3) 
-                <td>{{ $item->name }}</td>
+                <td>{{ $item->company_name }}</td>
                 @endif
                 <td>{{ date('d-m-Y', strtotime($item->date_export)) }}</td>                
                 <td>{{ $item->bill_no }}</td>
@@ -141,5 +140,8 @@ function callDelete(name, url){
   })
   return flag;
 }
+$(document).ready(function(){
+  $('.select2').select2();
+});
 </script>
 @stop

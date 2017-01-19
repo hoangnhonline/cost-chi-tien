@@ -50,7 +50,7 @@ class BillController extends Controller
         }
         $query->join('users', 'users.id', '=', 'bill.customer_id');       
         
-        $items = $query->select(['users.name as full_name', 'bill.*'])->orderBy('date_export', 'asc')->paginate(100);
+        $items = $query->select(['users.name as full_name', 'users.company_name', 'bill.*'])->orderBy('date_export', 'asc')->paginate(100);
         $total = $query->selectRaw('sum(owed) as total_cost_owed')->first()->total_cost_owed;       
       
         return view('bill.index', compact( 'items' , 'customerList', 'search', 'total'));
@@ -136,10 +136,9 @@ class BillController extends Controller
         if(Auth::user()->role != 3){
             return redirect()->route('bill.index');
         }
-        $detail = Bill::find($id);
-        $departmentList = Department::all();
-        $staffList = Account::where('type', 1)->get();
-        return view('bill.edit', compact('detail', 'departmentList', 'staffList'));
+        $customerList = Account::where('type', 2)->get();
+        $detail = Bill::find($id);        
+        return view('bill.edit', compact('detail', 'customerList'));
     }
 
     /**
@@ -156,27 +155,30 @@ class BillController extends Controller
         }
         $dataArr = $request->all();
         
-        $this->validate($request,[
-            'type' => 'required',
-            'department_id' => 'required',
+        $this->validate($request,[            
             'customer_id' => 'required',
-            'total_cost' => 'required',
             'date_export' => 'required',
             'bill_no' => 'required',
-            'title' => 'required'           
+            'product_cost' => 'required',
+            'tax' => 'required',
+            'total_cost' => 'required'           
         ],
-        [            
-            'type.required' => 'Bạn chưa chọn phân loại',
-            'department_id.required' => 'Bạn chưa chọn phòng ban ',
-            'customer_id.required' => 'Bạn chưa chọn nhân viên',
-            'total_bill.required' => 'Bạn chưa nhập số tiền',            
-            'date_export.required' => 'Bạn chưa nhập ngày',            
-            'bill_no.required' => 'Bạn chưa nhập số chứng từ',            
-            'title.required' => 'Bạn chưa nhập nội dung',
+        [           
+            
+            'customer_id.required' => 'Bạn chưa chọn khách hàng ',
+            'date_export.required' => 'Bạn chưa chọn nhân viên',
+            'bill_no.required' => 'Bạn chưa nhập số hóa đơn',            
+            'product_cost.required' => 'Bạn chưa nhập tiền hàng',            
+            'tax.required' => 'Bạn chưa nhập thuế',            
+            'total_cost.required' => 'Bạn chưa nhập tổng tiền',
         ]);
 
         $dataArr['date_export'] = date('Y-m-d', strtotime($dataArr['date_export']));
+        $dataArr['product_cost'] = str_replace(",", "", $dataArr['product_cost']);
+        $dataArr['tax'] = str_replace(",", "", $dataArr['tax']);
         $dataArr['total_cost'] = str_replace(",", "", $dataArr['total_cost']);
+        $dataArr['pay'] = str_replace(",", "", $dataArr['pay']);
+        $dataArr['owed'] = str_replace(",", "", $dataArr['owed']);
 
         $model = Bill::find($dataArr['id']);
 

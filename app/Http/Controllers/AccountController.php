@@ -34,7 +34,7 @@ class AccountController extends Controller
         if(Auth::user()->role != 3){
             return redirect()->route('cost.index');
         }
-        $items = Account::where('role', '<', 3)->where('status', '>', 0)->orderBy('id')->get();        
+        $items = Account::where('role', '<', 3)->where('status', '>', 0)->where('type', 1)->orderBy('id')->get();        
         
         //$parentCate = Category::where('parent_id', 0)->where('type', 1)->orderBy('display_order')->get();
         

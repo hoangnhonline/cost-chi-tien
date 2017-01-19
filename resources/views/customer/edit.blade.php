@@ -32,6 +32,9 @@ $area_id = old('area_id', $detail->area_id);
             {!! csrf_field() !!}
             <input type="hidden" name="id" value="{{ $detail->id }}">
             <div class="box-body">
+              @if(Session::has('message'))
+              <p class="alert alert-info" >{{ Session::get('message') }}</p>
+              @endif
               @if (count($errors) > 0)
                   <div class="alert alert-danger">
                       <ul>
