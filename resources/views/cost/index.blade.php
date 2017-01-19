@@ -107,8 +107,8 @@
                 <td style="text-align:right">{{ number_format($item->total_cost) }}</td>
                 @if(Auth::user()->role == 3)
                 <td style="white-space:nowrap">                                
-                  <a href="{{ route( 'cost.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning">Chỉnh sửa</a>                                   
-                  <a onclick="return callDelete('{{ $item->title }}','{{ route( 'cost.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger">Xóa</a>
+                  <a href="{{ route( 'cost.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning  btn-sm">Chỉnh sửa</a>                                   
+                  <a onclick="return callDelete('{{ $item->title }}','{{ route( 'cost.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger  btn-sm">Xóa</a>
                 </td>
                 @endif
               </tr> 

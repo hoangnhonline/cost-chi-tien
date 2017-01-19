@@ -124,7 +124,7 @@ function calTotal(){
   if($('#product_cost').val() != ''){
     product_cost = parseInt($('#product_cost').val());
   }
-  if($('#tax').val() != ''){
+  if($('#tax').val()){
     tax = parseInt($('#tax').val());
   }
   $('#total_cost, #owed').val(product_cost+tax);

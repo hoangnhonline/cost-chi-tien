@@ -77,6 +77,14 @@ Route::group(['prefix' => 'bill'], function () {
     Route::post('/update', ['as' => 'bill.update', 'uses' => 'BillController@update']);
     Route::get('{id}/destroy', ['as' => 'bill.destroy', 'uses' => 'BillController@destroy']);
 });
+Route::group(['prefix' => 'bill-detail'], function () {
+    Route::get('/', ['as' => 'bill-detail.index', 'uses' => 'BillDetailController@index']);
+    Route::get('/create', ['as' => 'bill-detail.create', 'uses' => 'BillDetailController@create']);
+    Route::post('/store', ['as' => 'bill-detail.store', 'uses' => 'BillDetailController@store']);
+    Route::get('{id}/edit',   ['as' => 'bill-detail.edit', 'uses' => 'BillDetailController@edit']);
+    Route::post('/update', ['as' => 'bill-detail.update', 'uses' => 'BillDetailController@update']);
+    Route::get('{id}/destroy', ['as' => 'bill-detail.destroy', 'uses' => 'BillDetailController@destroy']);
+});
 Route::group(['prefix' => 'customer'], function () {
     Route::get('/', ['as' => 'customer.index', 'uses' => 'CustomerController@index']);
     Route::post('/store', ['as' => 'customer.store', 'uses' => 'CustomerController@store']);

@@ -90,8 +90,9 @@
                 <td style="text-align:right">{{ number_format($item->owed) }}</td>
                 @if(Auth::user()->role == 3)
                 <td style="white-space:nowrap">                                
-                  <a href="{{ route( 'bill.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning">Chỉnh sửa</a>                                   
-                  <a onclick="return callDelete('{{ $item->title }}','{{ route( 'bill.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger">Xóa</a>
+                <a href="{{ route( 'bill-detail.index', [ 'id' => $item->id ]) }}" class="btn btn-info btn-sm">Chi tiết</a>
+                  <a href="{{ route( 'bill.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm">Chỉnh sửa</a>                                   
+                  <a onclick="return callDelete('{{ $item->title }}','{{ route( 'bill.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger  btn-sm">Xóa</a>
                 </td>
                 @endif
               </tr> 

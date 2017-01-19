@@ -65,9 +65,9 @@
                     onclick="return confirm('Bạn chắc chắn muốn KHÓA tài khoản này? '); "
                     @endif
                     >{{ $item->status == 1 ? "Khóa TK" : "Mở khóa TK" }}</a>                
-                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}" class="btn-sm btn btn-primary">Chỉnh sửa</a>                 
+                    <a href="{{ route( 'account.edit', [ 'id' => $item->id ]) }}" class="btn-sm btn btn-primary  btn-sm">Chỉnh sửa</a>                 
                     
-                    <a onclick="return callDelete('{{ $item->name }}','{{ route( 'account.destroy', [ 'id' => $item->id ]) }}');" class="btn-sm btn btn-danger">Xóa</a>
+                    <a onclick="return callDelete('{{ $item->name }}','{{ route( 'account.destroy', [ 'id' => $item->id ]) }}');" class="btn-sm btn btn-danger  btn-sm">Xóa</a>
                     
                   </td>
                 </tr> 
